@@ -1,6 +1,6 @@
 
 <template>
-    <div class="aloha"> Hello {{stuff}}</div>
+    <div class="aloha"> This is a static string from a subcomponent,  {{stuff}}</div>
 </template>
 
 <script>
