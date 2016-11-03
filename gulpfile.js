@@ -15,10 +15,21 @@ gulp.task('clean:dist', function(){
     ]);
 });
 
+gulp.task('clean:css', function(){
+    return del([
+        './css/**/*'
+    ]);
+});
+
 gulp.task('copyhtml', ['clean:dist'], function(){
     return gulp.src('index.html')
         .pipe(gulp.dest('dist/'));
 });
+
+gulp.task('copygridster', ['clean:dist'], function(){
+    return gulp.src('./resources/gridster/*.*')
+        .pipe(gulp.dest('dist/'));
+})
 
 gulp.task('makeSassAndCopy', ['sass'], function(){
     return gulp.src('./css/style.css')
@@ -31,7 +42,7 @@ gulp.task('webpack', function(){
     .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('sass', ['clean:dist'],function() {
+gulp.task('sass', ['clean:dist', 'clean:css'],function() {
     return sass('./resources/sass/style.scss',{
             style: 'compressed',
             loadPath: [
@@ -47,7 +58,7 @@ gulp.task('sass', ['clean:dist'],function() {
 
 gulp.task('icons', ['clean:dist'], function() {
     return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
-        .pipe(gulp.dest('./fonts'));
+        .pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('default', ['icons','makeSassAndCopy', 'copyhtml', 'webpack']);
+gulp.task('default', ['icons','makeSassAndCopy', 'copyhtml', 'copygridster', 'webpack']);

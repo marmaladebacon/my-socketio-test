@@ -20,6 +20,7 @@
     "request": "^2.76.0",
     "vue": "^2.0.3",
     "vue-loader": "^9.7.0",
+    "vue-router": "^2.0.1",
     "webpack-stream": "^3.2.0"
   },
   "devDependencies": {

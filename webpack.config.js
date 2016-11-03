@@ -20,6 +20,7 @@ module.exports = {
         ]
     },
     externals:{
+        "jquery": "$",
         "lodash": "_"
     },
     resolve:{
