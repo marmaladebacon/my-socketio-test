@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="starter-template">
+        <div class="demo">
             <div class="gridster" v-gridup>
                 <ul>
                     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1"></li>
@@ -27,6 +27,18 @@
 </template>
 
 <script>
+var Vue = require('vue');
+Vue.directive('gridup', {
+    inserted: function(el){
+        $(".gridster ul").gridster({
+            widget_margins: [10, 10],
+            widget_base_dimensions: [140, 140],
+            resize:{
+                enabled:true
+            }
+        });
+    }
+});
 
 module.exports = {
     name: 'gridster',
@@ -37,3 +49,16 @@ module.exports = {
     }
 };
 </script>
+
+<style>
+    ul, ol {
+        list-style:none;
+    }
+
+    .gridster .gs-w {
+        background: #98f442;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+</style>
