@@ -7,7 +7,7 @@ var s = new mainService(app);
 s.setup();
 //setting custom url
 //var server = app.listen(8080,'127.0.0.1', function () {
-var server = app.listen(8888,'mkopc.pc.factset.com', function () {
+var server = app.listen(8888,'127.0.0.1', function () {
   var host = server.address().address;
   var port = server.address().port;
   baseUrl = 'http://'+host+':'+port;
