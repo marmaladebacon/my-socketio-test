@@ -21,14 +21,8 @@
   "dependencies": {
     "bootstrap-sass": "bootstrap-sass-official#^3.3.7",
     "font-awesome": "fontawesome#^4.7.0",
-    "bandit": "https://gitlab.factset.com/bandit/bandit.git#1.12.0",
-    "bandit-components": "https://gitlab.factset.com/bandit/bandit-components.git#1.11.0",
     "backbone.marionette": "~2.3.2",
-    "bridge": "https://gitlab.factset.com/bridge/bridge.git#2.10.0",
-    "thief-fdschart": "https://gitlab.factset.com/thief-extensions/fdschart.git",
-    "thief-fdschart-xml-generator": "https://gitlab.factset.com/thief-extensions/fdschart-xml-generator.git#^1.0.0",
-    "vue-resource": "^1.0.3",
-    "fds-user-angular": "https://gitlab.factset.com/components/fds-user-angular.git#1.0.3"
+    "vue-resource": "^1.0.3"
   },
   "resolutions": {
     "jquery": "1.9.1 - 3",
