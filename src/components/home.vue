@@ -1,15 +1,14 @@
 <template>
     <div>
         <div class="starter-template">
-            <h1>My Next Project Home</h1>
-            <p class="lead">Here's where i describe what goes into my next project<br> node-gulp-webpack-vuejs-bootstrap-awesomefont-git</p>
-            <h2>Icons</h2>
-            <p><i class="fa fa-rocket"></i></p>
+            <h1>Turtle Report Builder</h1><p><i class="fa fa-rocket"></i></p>
+            <p class="lead">A report assembly tool<br><a href="https://gitlab.factset.com/mko/turtle-report-builder">Docs</a> </p>
+
         </div>
 
-        <div>{{message}}
+        <!-- <div>{{message}}
             <helloworld></helloworld>
-        </div>
+        </div> -->
     </div>
 </template>
 

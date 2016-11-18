@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var req = require('request');
 var bluebird = require('bluebird');
 var _ = require('lodash');
+var requester = require('request');
 
 module.exports = function(app){
     return _.assign({},{
@@ -12,8 +13,19 @@ module.exports = function(app){
                 extended: true
             }));
             app.use(express.static(__dirname + '/dist/'));
-            app.use(function(request, response, next) {
-                next();
+            app.use('/bower_components', express.static(__dirname+'/bower_components'));
+            app.get('/api/getexample', function(req, res){
+                res.status(200).send({user:username});
+            });
+            app.post('/api/postexample', function(request, response){
+                console.log('Received request');
+                var beautifyOpts = {};
+                var json = request.body;
+
+                response.status(200).send({
+                    mytest: json,
+                    stringresult: 'String result test post'
+                });
             });
         }
     });

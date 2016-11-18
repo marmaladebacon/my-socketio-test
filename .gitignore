@@ -1,6 +1,5 @@
-dist
+.vscode
 node_modules
 bower_components
 .sass-cache
-fonts
 css

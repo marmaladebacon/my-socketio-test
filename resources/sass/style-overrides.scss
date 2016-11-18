@@ -1,36 +1,3 @@
-// Add custom font
-@import url(http://fonts.googleapis.com/css?family=Raleway:400,700,300);
-$font-family-base: 'Raleway', sans-serif;
-
-// Import bootstrap and fontawesome
-//@import "bootstrap";
-
-// Core variables and mixins
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
-
-// Reset and dependencies
-@import "bootstrap/normalize";
-@import "bootstrap/print";
-@import "bootstrap/glyphicons";
-// Core CSS
-@import "bootstrap/scaffolding";
-@import "bootstrap/type";
-@import "bootstrap/code";
-//@import "bootstrap/grid";
-@import "bootstrap/forms";
-@import "bootstrap/buttons";
-//Only navs
-@import "bootstrap/navs";
-@import "bootstrap/navbar";
-@import "font-awesome";
-
-// Components w/ JavaScript
-@import "bootstrap/modals";
-@import "bootstrap/tooltip";
-@import "bootstrap/popovers";
-@import "bootstrap/carousel";
-
 // Bootstrap Starter Template Styles
 body {
   padding-top: 50px;
@@ -46,7 +13,7 @@ html{
 }
 .container {
   overflow-y: scroll;
-  height: 90vh;
+  height: 100vh;
   padding-left:0px;
   margin-left: 0px;
   width: 100vw;
@@ -113,4 +80,51 @@ html{
 }
 .controls {
   margin-bottom: 20px;
+}
+
+.grid-stack > .grid-stack-item {
+
+    $gridstack-columns: 3;
+
+    @for $i from 1 through $gridstack-columns {
+        &[data-gs-width='#{$i}'] { width: (100% / $gridstack-columns) * $i; }
+        &[data-gs-x='#{$i}'] { left: (100% / $gridstack-columns) * $i; }
+        &.grid-stack-item[data-gs-min-width='#{$i}'] { min-width: (100% / $gridstack-columns) * $i; }
+        &.grid-stack-item[data-gs-max-width='#{$i}'] { max-width: (100% / $gridstack-columns) * $i; }
+    }
+}
+
+//making the font size bigger
+.grid-stack-item .tilewrapper .fa {
+  font-size: 3em;
+  color: maroon;
+  z-index: 6000 !important;
+}
+//tried the following, can't seem to put spaces in between
+/*
+.grid-stack-item {
+  margin-left: 15px !important;
+  margin-right:15px !important;
+  margin-top: 10px;
+}
+*/
+
+.grid-stack-item .fa{
+  opacity: 0.1;
+}
+
+.grid-stack-item:hover .fa{
+  opacity: 0.7;
+}
+
+.grid-stack-item-content{
+  z-index: 5000 !important;
+}
+
+.ui-dialog.ui-corner.ui-widget{
+  display:block;
+}
+
+.hide{
+  display:none;
 }
