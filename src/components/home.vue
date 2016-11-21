@@ -5,9 +5,9 @@
             <p class="lead">A report assembly tool<br><a href="https://gitlab.factset.com/mko/turtle-report-builder">Docs</a> </p>
 
         </div>
-
+        <helloworld></helloworld>
         <!-- <div>{{message}}
-            <helloworld></helloworld>
+
         </div> -->
     </div>
 </template>

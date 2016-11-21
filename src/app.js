@@ -3,7 +3,6 @@ var VueRouter = require('vue-router');
 var VueResource = require('vue-resource');
 var Vuex = require('vuex');
 var $ = require('jquery');
-var statics = require('./utility/staticStrings.js');
 
 var c_Home = require('./components/home.vue');
 var c_ReportBuilderGridstack = require('./components/report-builder-gridstack.vue');

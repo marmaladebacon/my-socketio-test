@@ -1,14 +1,18 @@
 
 <template>
-    <div class="aloha"> This is a static string from a subcomponent,  {{stuff}}</div>
+    <div class="aloha"> Using the following: {{stuff}}</div>
 </template>
 
 <script>
+var ExampleES6Class = require('./../utility/exampleES6Class.js').default;
+var ExampleES6Class2 =  require('./../utility/exampleES6Class2.js');
+var stat = new ExampleES6Class();
+var stat2 = new ExampleES6Class2();
 module.exports = {
     name: 'helloworld',
     data: function(){
         return {
-            stuff: ' World!!'
+            stuff: stat.getStaticString()+','+stat2.getStaticString(),
         };
     }
 };
