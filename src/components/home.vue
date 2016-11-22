@@ -25,6 +25,13 @@ module.exports = {
     },
     components: {
         helloworld: hw
+    },
+    mounted: function(){
+        var socket = io();
+        socket.on('news', function(data){
+            console.log(data);
+        });
+        console.log(socket);
     }
 };
 </script>

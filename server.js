@@ -1,6 +1,7 @@
+require("babel-core/register");
 var express = require('express');
 var app = express();
-var mainService = require('./mainservice.js');
+var mainService = require('./mainservice.js').default;
 
 //var server = new mainService(app);
 var s = new mainService(app);

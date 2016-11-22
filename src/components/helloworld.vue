@@ -4,9 +4,10 @@
 </template>
 
 <script>
-var ExampleES6Class = require('./../utility/exampleES6Class.js').default;
+//var ExampleES6Class = require('./../utility/exampleES6Class.js').default;
+import exampleES6Class from './../utility/exampleES6Class.js';
 var ExampleES6Class2 =  require('./../utility/exampleES6Class2.js');
-var stat = new ExampleES6Class();
+var stat = new exampleES6Class();
 var stat2 = new ExampleES6Class2();
 module.exports = {
     name: 'helloworld',
