@@ -6,14 +6,19 @@ import _ from 'lodash';
 import requester from 'request';
 import SocketIO from 'socket.io';
 import Http from 'http';
+import Player from './server/Player.js';
 
 export default class MainService{
     constructor(app, server){
         this.app = app;
         this.server = server;
         this.io = new SocketIO(this.server);
+        this.ioMyNsp = this.io.of('/mynsp');
         this.setup(app);
         this.sockets = [];
+        this.socket_viewers = [];
+        //his.players = new Map(); //convert to array
+        this.players = [];
 
     }
     setup(app){
@@ -38,33 +43,87 @@ export default class MainService{
             });
         });
 
-
-
         app.get('/api/news/articles', this.getNewsApi);
         this.io.on('connection', (socket) =>{
-            console.log('user connected');
+            console.log('user connected to all');
+            //console.log(socket);
+            socket.emit('identity', {id: socket.id, rooms: socket.rooms });
             this.sockets.push(socket);
+
+            socket.on("join", (data)=>{
+                socket.join(data.roomName);
+                console.log('joining '+data.roomName);
+                switch(data.roomName){
+                    case 'viewers': this.socket_viewers.push(socket);break;
+                    case 'players':
+                        console.log('joining players');
+                        this.players.push( new Player(socket.id, data));
+                        this.setupPlayerSocket(socket);
+                        break;
+                }
+
+            });
+
             socket.on('disconnect', ()=>{
-                console.log('user disconnected');
+                console.log('user disconnected from all');
+                /*
+                if(this.players.has(socket.id)){
+                    this.players.delete(socket.id);
+                }else{
+                    _.remove(this.socket_viewers, (n)=>{return n.id === socket.id;});
+                }*/
+                _.remove(this.socket_viewers, (n)=>{return n.id === socket.id;});
+                _.remove(this.players, (n)=>{return n.id == socket.id;});
                 _.remove(this.sockets, (n)=>{return n.id === socket.id;});
             });
         });
+        /*
+        this.ioMyNsp.on('connection', (socket) => {
+            console.log('user connected to my namespace');
+            socket.on('disconnect', ()=>{
+                console.log('user disconnected from my namespace');
+                _.remove(this.sockets, (n)=>{return n.id === socket.id;});
+            });
+        });*/
         var boundloop = this.logicloop.bind(this);
-        setInterval(boundloop, 3000);
+        var boundStatsLoop = this.statsLoop.bind(this);
+        setInterval(boundloop, 1000/30);
+        setInterval(boundStatsLoop, 5000);
     }
-    logicloop(){
-        console.log('This is a message');
-        this.getNews().on('response', (response)=>{
-            //console.log(response);
-            response.on('data', (data)=>{
-                var json = JSON.parse(data);
-                _.forEach(this.sockets, (n)=>{
-                    n.emit('news',json);
-                });
-            })
-        });
 
+    logicloop(){
+        var data = {
+            connectedViewers: this.socket_viewers.length,
+            connectedPlayers: this.players.size,
+            players: this.players,
+        }
+        this.io.to('viewers').emit('viewerUpdate', data);
     }
+
+    statsLoop(){
+        console.log('Viewers count:'+this.socket_viewers.length);
+        console.log('Players count:' +this.players.length);
+    }
+
+    setupPlayerSocket(socket){
+        socket.on('move', (data)=>{
+            let p = this.getPlayer(socket.id);
+            p.posx += data.x * 0.03;
+            p.posy += data.y * 0.03;
+            if(p.posx > 1){ p.posx = p.posx - 1;}
+            if(p.posy > 1){ p.posy = p.posy - 1;}
+            if(p.posx < 0){p.posx = p.posx + 1;}
+            if(p.posy < 0){p.posy = p.posy +1;}
+        });
+    }
+
+    getPlayer(id){
+        var result = _.find(this.players, (n)=>{
+            return n.id === id;
+        });
+        return result;
+    }
+
     getNewsApi(req, res){
         req.pipe(this.getNews()).pipe(res);
     }
@@ -82,3 +141,20 @@ export default class MainService{
 }
 
 //app.use('/fonts', express.static(__dirname + '/dist/fonts/'));
+
+/*
+        this.getNews().on('response', (response)=>{
+            //console.log(response);
+            response.on('data', (data)=>{
+                let d = response;
+                try{
+                    d= JSON.parse(data);
+                }catch(e){
+                    console.log('error in parse');
+                }
+                _.forEach(this.sockets, (n)=>{
+                    n.emit('news',d);
+                });
+            })
+        });
+        */

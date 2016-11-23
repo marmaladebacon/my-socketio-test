@@ -6,7 +6,7 @@ var $ = require('jquery');
 
 var c_Home = require('./components/home.vue');
 var c_ReportBuilderGridstack = require('./components/report-builder-gridstack.vue');
-
+var c_Simulation = require('./components/simulation.vue');
 var c_ToastWrapper = require('./components/toast-wrapper.vue');
 var VuexToast = require('vuex-toast');
 Vue.use(VueRouter);
@@ -62,6 +62,7 @@ var store = new Vuex.Store({
 var routes = [
     {path:'/home', component: c_Home},
     {path: '/reportbuildergridstack', component: c_ReportBuilderGridstack},
+    {path: '/simulation', component: c_Simulation},
     {path:'*', redirect: '/home'}
 
 ];
@@ -77,6 +78,7 @@ var app = new Vue({
     components:{
         c_Home: c_Home,
         c_ReportBuilderGridstack: c_ReportBuilderGridstack,
+        c_Simulation: c_Simulation,
         'toast-wrapper': c_ToastWrapper,
     },
     methods:{

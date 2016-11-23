@@ -14,11 +14,11 @@
 
 <script>
 
-var hw = require('./helloworld.vue');
+import hw from './helloworld.vue';
 
-module.exports = {
+export default {
     name: 'home',
-    data: function(){
+    data(){
         return {
             message: ' World!!'
         };
@@ -26,12 +26,9 @@ module.exports = {
     components: {
         helloworld: hw
     },
-    mounted: function(){
-        var socket = io();
-        socket.on('news', function(data){
-            console.log(data);
-        });
-        console.log(socket);
+    mounted(){
+        //let url = 'http://localhost:8888/mynsp'
+
     }
 };
 </script>
