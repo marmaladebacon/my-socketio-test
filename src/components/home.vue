@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="starter-template">
-            <h1>Turtle Report Builder</h1><p><i class="fa fa-rocket"></i></p>
-            <p class="lead">A report assembly tool<br><a href="https://gitlab.factset.com/mko/turtle-report-builder">Docs</a> </p>
+            <h1>A collection of unrelated projects</h1><p><i class="fa fa-rocket"></i></p>
+            <p class="lead">docs<br><a href="https://gitlab.factset.com/mko/turtle-report-builder">Docs</a> </p>
 
         </div>
         <helloworld></helloworld>

@@ -4,8 +4,8 @@ var app = express();
 var server = require('http').Server(app);
 var mainService = require('./mainservice.js').default;
 server.listen({
-  host: '127.0.0.1',
-  port: 8888
+  host: 'mkopc.pc.factset.com', //'127.0.0.1',
+  port: 8000
 }, function () {
   var host = server.address().address;
   var port = server.address().port;

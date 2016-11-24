@@ -14,15 +14,26 @@ export default class DrawingMgr{
     ToUnitsY(val){
         return this.canvas.height * val;
     }
+    YToXUnits(val){
+        return val/this.canvas.height * this.canvas.width * this.canvas.width;
+    }
+
     DrawRect(x, y, width, height, color){
         this.canvasContext.fillStyle = color;
         this.canvasContext.fillRect(this.ToUnitsX(x), this.ToUnitsY(y),
-            this.ToUnitsX(width), this.ToUnitsY(height));
+            this.YToXUnits(width), this.YToXUnits(height));
     }
     DrawText(x, y, width, color, text ){
         this.canvasContext.fillStyle = color;
-        this.canvasContext.font = "48px serif";
+        this.canvasContext.font = "32px serif";
         this.canvasContext.fillText(text, this.ToUnitsX(x), this.ToUnitsY(y), this.ToUnitsX(width));
+    }
+
+    DrawCircle(x, y, radius, color){
+        this.canvasContext.fillStyle = color;
+        this.canvasContext.beginPath();
+        this.canvasContext.arc(this.ToUnitsX(x), this.ToUnitsY(y), this.ToUnitsX(radius), 0, Math.PI*2, true);
+        this.canvasContext.fill();
     }
 
 }

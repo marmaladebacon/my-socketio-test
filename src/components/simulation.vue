@@ -22,6 +22,7 @@ module.exports = {
         return {
             count: 0,
             players: [],
+            noms: [],
         }
     },
     mounted(){
@@ -51,7 +52,7 @@ module.exports = {
         socket.on('viewerUpdate', (data)=>{
             console.log(data);
             this.players = data.players;
-
+            this.noms = data.noms;
         });
         console.log(socket);
     },
@@ -61,27 +62,37 @@ module.exports = {
             this.drawMgr.DrawRect(0.2,0.4, 0.35,0.1,'black');
             this.simDrawBoard();
             console.log(this.players.length);
+            this.simDrawNoms();
+            this.simDrawPlayers();
+
+        },
+        simDrawBoard(){
+            this.drawMgr.DrawRect(0,0, 1,1,'black');
+        },
+        simDrawPlayers(){
             for(let i =0; i<this.players.length; i++){
                 this.simDrawPlayer(this.players[i]);
             }
-            /*
-            for(var [key, value] of this.players){
-                this.simDrawPlayer(value);
-            }
-            */
         },
-        simDrawBoard(){
-            //this.drawMgr.DrawRect(1,1, 1,1,'black');
-            this.drawMgr.DrawRect(0,0, 1,1,'black');
+        simDrawNoms(){
+            for(let i=0; i<this.noms.length; i++){
+                this.simDrawNom(this.noms[i]);
+            }
         },
         simDrawPlayer(playerModel){
-            console.log('Drawing player: '+ playerModel.x + ', '+playerModel.y);
-            this.drawMgr.DrawRect(playerModel.posx, playerModel.posy, 0.1, 0.1,'white');
-            this.drawMgr.DrawText(playerModel.posx, playerModel.posy+0.12, 0.8, 'white', playerModel.playerName);
+            let pcolor = 'rgb('+ (Math.round(1 -(playerModel._playerEnergy/playerModel.maxPlayerEnergy)) * 254 + 1)+',255,255)';
+            console.log('Drawing player: '+pcolor+', '+ playerModel.posx + ', '+playerModel.posy);
+
+            this.drawMgr.DrawCircle(playerModel.posx, playerModel.posy, playerModel.radius,pcolor);
+            this.drawMgr.DrawText(playerModel.posx-0.03, playerModel.posy+0.02, 0.8, 'green', playerModel.playerName);
         },
+        simDrawNom(nomModel){
+            this.drawMgr.DrawCircle(nomModel.x, nomModel.y, nomModel.radius, 'cyan');
+        },
+
         simResizeWindow(){
             let gameArea = document.getElementById('gameArea');
-            let widthToHeight = 16/9;
+            let widthToHeight = 4/3;
             let newWidth = window.innerWidth;
             let newHeight = window.innerHeight;
             let newWidthToHeight = newWidth/newHeight;
