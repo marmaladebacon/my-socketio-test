@@ -4,7 +4,7 @@ var app = express();
 var server = require('http').Server(app);
 var mainService = require('./mainservice.js').default;
 server.listen({
-  host: 'mkopc.pc.factset.com', //'127.0.0.1',
+  host: '127.0.0.1',
   port: 8000
 }, function () {
   var host = server.address().address;
