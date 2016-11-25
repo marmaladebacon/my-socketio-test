@@ -50,7 +50,7 @@ module.exports = {
             console.log(data);
         });
         socket.on('viewerUpdate', (data)=>{
-            console.log(data);
+            //console.log(data);
             this.players = data.players;
             this.noms = data.noms;
         });
@@ -80,9 +80,10 @@ module.exports = {
             }
         },
         simDrawPlayer(playerModel){
-            let pcolor = 'rgb('+ (Math.round(1 -(playerModel._playerEnergy/playerModel.maxPlayerEnergy)) * 254 + 1)+',255,255)';
-            console.log('Drawing player: '+pcolor+', '+ playerModel.posx + ', '+playerModel.posy);
-
+            let val = 1 -(playerModel._playerEnergy/playerModel.maxPlayerEnergy);
+            console.log('P Energy:'+ playerModel._playerEnergy+', '+playerModel.maxPlayerEnergy+ '-->'+val);
+            let pcolor = 'rgb('+ (Math.floor(val * 254)  + 1)+',255,0)';
+            //console.log('Drawing player: '+pcolor+', '+ playerModel.posx + ', '+playerModel.posy);
             this.drawMgr.DrawCircle(playerModel.posx, playerModel.posy, playerModel.radius,pcolor);
             this.drawMgr.DrawText(playerModel.posx-0.03, playerModel.posy+0.02, 0.8, 'green', playerModel.playerName);
         },

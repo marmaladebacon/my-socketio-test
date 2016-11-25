@@ -93,9 +93,10 @@ export default class MainService{
     logicloop(){
         //update players
         for(let i=0; i<this.players.length; i++){
-            this.players[i].UpdateVelocity();
-            this.players[i].UpdatePosition();
-            this.players[i].UpdateEnergy();
+            this.players[i].updateVelocity();
+            this.players[i].updatePosition();
+            this.players[i].updateEnergy();
+            this.players[i].updateNomCollisions(this.noms);
         }
 
         var data = {
@@ -125,13 +126,15 @@ export default class MainService{
 
     setupPlayerSocket(socket){
         socket.on('setvelocity', (data)=>{
-            let energyCost = (data.x + data.y) / 2 * 30;
+            let energyCost = (data.x + data.y) / 2 * 60;
             let p = this.getPlayer(socket.id);
             if(energyCost <= p.playerEnergy){
                 //do action only if there's enough energy;
                 p.intendedVelX = data.x;
                 p.intendedVelY = data.y;
-                p.playerEnergy -= energyCost;
+                p._playerEnergy -= energyCost;
+                console.log('Player using energy ' + energyCost);
+                
             }else{
 
             }

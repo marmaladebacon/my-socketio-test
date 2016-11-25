@@ -1,3 +1,4 @@
+import _ from 'lodash';
 export default class Player{
     constructor(id, data){
         this.points = 0;
@@ -10,8 +11,8 @@ export default class Player{
         this.vely = 0;
         this._intendedVelX = 0;
         this._intendedVelY = 0;
-        this.maxSpeed = 0.03;
-        this.accelaration = 0.02;
+        this.maxSpeed = 0.005;
+        this.accelaration = 0.005;
         this._playerEnergy = 50;
         this.maxPlayerEnergy = 100;
     }
@@ -40,12 +41,12 @@ export default class Player{
     get vel () { return {x:this.velx, y:this.vely};}
     get playerEnergy(){ return this._playerEnergy;}
 
-    UpdateVelocity(){
+    updateVelocity(){
         this.velx = this.updateVel(this._intendedVelX, this.velx);
         this.vely = this.updateVel(this._intendedVelY, this.vely);
     }
 
-    UpdatePosition(){
+    updatePosition(){
         this.posx += (this.velx * this.maxSpeed);
         this.posy += (this.vely * this.maxSpeed);
         if(this.posx <= 0 || this.posx >= 1) { this.velx = -this.velx;}
@@ -56,7 +57,7 @@ export default class Player{
         if(this.posy > 1){this.posy = 1 - this.radius;}
     }
 
-    UpdateEnergy(){
+    updateEnergy(){
         if(this._playerEnergy>this.maxPlayerEnergy){
             this._playerEnergy = this.maxPlayerEnergy;
         }else{
@@ -65,6 +66,7 @@ export default class Player{
     }
 
     updateVel(intended, actual){
+        
         if(intended >= 0 && (actual < intended) ){
             actual += this.accelaration;
             if(actual > 1){ actual = 1;}
@@ -76,5 +78,26 @@ export default class Player{
 
         }
         return actual;
+    }
+
+    updateNomCollisions(noms){
+        let nomsToRemove = [];
+        for(let i =0; i<noms.length; i++){
+            let contactDist = noms[i].radius + this.radius;
+            let contactDistSq = contactDist * contactDist;
+            let nomsDiff = {
+                x: noms[i].x - this.posx,
+                y: noms[i].y - this.posy,
+            }
+            let nomsDiffSq = (nomsDiff.x * nomsDiff.x) + (nomsDiff.y * nomsDiff.y);
+            if(contactDistSq > nomsDiffSq){
+                nomsToRemove.push(noms[i]);
+            }
+        }
+
+        _.forEach(nomsToRemove, (n)=>{
+            let index = noms.indexOf(n);
+            noms.splice(index, 1);
+        });
     }
 }
