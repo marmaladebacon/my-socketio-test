@@ -126,17 +126,67 @@ export default class MainService{
 
     setupPlayerSocket(socket){
         socket.on('setvelocity', (data)=>{
-            let energyCost = (data.x + data.y) / 2 * 60;
+            let energyCost = (data.x + data.y) / 2 * 90;
             let p = this.getPlayer(socket.id);
             if(energyCost <= p.playerEnergy){
                 //do action only if there's enough energy;
                 p.intendedVelX = data.x;
                 p.intendedVelY = data.y;
                 p._playerEnergy -= energyCost;
-                console.log('Player using energy ' + energyCost);
-                
+                //console.log('Player using energy ' + energyCost);
             }else{
 
+            }
+        });
+        socket.on('updateNomsLocations', ()=>{
+            let energyCost = 50;
+            let p = this.getPlayer(socket.id);
+            if(energyCost <= p.playerEnergy){
+                //this.updateNomsLocations = true;
+                p._playerEnergy -= energyCost;
+                socket.emit('nomsLocationsData', this.noms);
+            }
+
+        });
+        socket.on('updateAllPlayersLocation', ()=>{
+            let energyCost = 50;
+            let p = this.getPlayer(socket.id);
+            if(energyCost <= p.playerEnergy){
+                //this.updateAllPlayersLocation = true;
+                p._playerEnergy -= energyCost;
+                let storeTemp = _.filter(this.players, (n)=>{
+                    return n.id !== socket.id;
+                });
+                let data = [];
+                for(let i =0; i<storeTemp.length; i++){
+                    data.push({
+                        playerName: storeTemp[i].playerName,
+                        x:storeTemp[i].posx,
+                        y:storeTemp[i].posy,
+                        radius:storeTemp[i].radius,
+                        velocity_x: storeTemp[i].velx,
+                        velocity_y: storeTemp[i].vely
+                    });
+
+                }
+                socket.emit('playersLocationsData', {data});
+            }
+        });
+        socket.on('updatePlayerClientData', ()=>{
+            let energyCost = 10;
+            let p = this.getPlayer(socket.id);
+            if(energyCost <= p.playerEnergy){
+                //this.updatePlayerClientData = true;
+                p._playerEnergy -= energyCost;
+                let pdata = {
+                    posX: p.posx,
+                    posY: p.posy,
+                    velocityX:p.velx,
+                    velocityY:p.vely,
+                    radius:p.radius,
+                    energyLevel: p._playerEnergy,
+                }
+                socket.emit('playerClientData', pdata);
             }
         });
 

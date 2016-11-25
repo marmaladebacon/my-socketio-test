@@ -15,6 +15,11 @@ export default class Player{
         this.accelaration = 0.005;
         this._playerEnergy = 50;
         this.maxPlayerEnergy = 100;
+        /*
+        this.updateNomsLocations = false;
+        this.updateAllPlayersLocation = false;
+        this.updatePlayerClientData = false;
+        */
     }
 
     set intendedVelX (x) {
@@ -66,16 +71,16 @@ export default class Player{
     }
 
     updateVel(intended, actual){
-        
+
         if(intended >= 0 && (actual < intended) ){
             actual += this.accelaration;
+            if(actual > intended){ actual = intended;}
             if(actual > 1){ actual = 1;}
 
-        }
-        if(intended < 0 && (actual> intended) ){
+        }else if(intended < 0 && (actual> intended) ){
             actual -= this.accelaration;
+            if(actual < intended){ actual = intended;}
             if(actual < -1){ actual = -1;}
-
         }
         return actual;
     }
