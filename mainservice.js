@@ -132,7 +132,7 @@ export default class MainService{
         socket.on('setvelocity', (data)=>{
             let energyCost = (data.x + data.y) / 2 * 90;
             let p = this.getPlayer(socket.id);
-            if(energyCost <= p.playerEnergy){
+            if(energyCost <= p._playerEnergy){
                 //do action only if there's enough energy;
                 p.intendedVelX = data.x;
                 p.intendedVelY = data.y;
@@ -145,7 +145,7 @@ export default class MainService{
         socket.on('updateNomsLocations', ()=>{
             let energyCost = 5;
             let p = this.getPlayer(socket.id);
-            if(energyCost <= p.playerEnergy){
+            if(energyCost <= p._playerEnergy){
                 //this.updateNomsLocations = true;
                 p._playerEnergy -= energyCost;
                 socket.emit('nomsLocationsData', this.noms);
@@ -155,7 +155,7 @@ export default class MainService{
         socket.on('updateAllPlayersLocation', ()=>{
             let energyCost = 5;
             let p = this.getPlayer(socket.id);
-            if(energyCost <= p.playerEnergy){
+            if(energyCost <= p._playerEnergy){
                 //this.updateAllPlayersLocation = true;
                 p._playerEnergy -= energyCost;
                 let storeTemp = _.filter(this.players, (n)=>{
@@ -179,7 +179,7 @@ export default class MainService{
         socket.on('updatePlayerClientData', ()=>{
             let energyCost = 5;
             let p = this.getPlayer(socket.id);
-            if(energyCost <= p.playerEnergy){
+            if(energyCost <= p._playerEnergy){
                 //this.updatePlayerClientData = true;
                 p._playerEnergy -= energyCost;
                 let pdata = {

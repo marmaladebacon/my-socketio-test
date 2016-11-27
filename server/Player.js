@@ -41,13 +41,9 @@ export default class Player{
 
     }
 
-    set playerEnergy(val){
-        if(val < 0){ val = 0;}
-        this._playerEnergy = val;
-    }
     get intendedVel(){ return {x:this._intendedVelX, y:this._intendedVelY};}
     get vel () { return {x:this.velx, y:this.vely};}
-    get playerEnergy(){ return this._playerEnergy;}
+//    get playerEnergy(){ return this._playerEnergy;}
 
     updateVelocity(){
         this.velx = this.updateVel(this._intendedVelX, this.velx);
@@ -106,7 +102,7 @@ export default class Player{
         if(this._playerEnergy>this.maxPlayerEnergy){
             this._playerEnergy = this.maxPlayerEnergy;
         }else{
-            this._playerEnergy += 1;
+            this._playerEnergy += 2;
         }
     }
 
