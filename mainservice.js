@@ -97,6 +97,10 @@ export default class MainService{
             this.players[i].updatePosition();
             this.players[i].updateEnergy();
             this.players[i].updateNomCollisions(this.noms);
+            this.players[i].updateCollisionsWithPlayers(this.players);
+        }
+        for(let i=0; i<this.players.length; i++){
+            this.players[i].resetCollisions();
         }
 
         var data = {
@@ -139,7 +143,7 @@ export default class MainService{
             }
         });
         socket.on('updateNomsLocations', ()=>{
-            let energyCost = 50;
+            let energyCost = 5;
             let p = this.getPlayer(socket.id);
             if(energyCost <= p.playerEnergy){
                 //this.updateNomsLocations = true;
@@ -149,7 +153,7 @@ export default class MainService{
 
         });
         socket.on('updateAllPlayersLocation', ()=>{
-            let energyCost = 50;
+            let energyCost = 5;
             let p = this.getPlayer(socket.id);
             if(energyCost <= p.playerEnergy){
                 //this.updateAllPlayersLocation = true;
@@ -173,7 +177,7 @@ export default class MainService{
             }
         });
         socket.on('updatePlayerClientData', ()=>{
-            let energyCost = 10;
+            let energyCost = 5;
             let p = this.getPlayer(socket.id);
             if(energyCost <= p.playerEnergy){
                 //this.updatePlayerClientData = true;

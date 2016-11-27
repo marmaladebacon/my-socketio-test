@@ -21,7 +21,8 @@ export default class DrawingMgr{
     DrawRect(x, y, width, height, color){
         this.canvasContext.fillStyle = color;
         this.canvasContext.fillRect(this.ToUnitsX(x), this.ToUnitsY(y),
-            this.YToXUnits(width), this.YToXUnits(height));
+            this.ToUnitsX(width), this.ToUnitsY(height));
+            //this.YToXUnits(width), this.YToXUnits(height));
     }
     DrawText(x, y, width, color, text ){
         this.canvasContext.fillStyle = color;
@@ -34,6 +35,15 @@ export default class DrawingMgr{
         this.canvasContext.beginPath();
         this.canvasContext.arc(this.ToUnitsX(x), this.ToUnitsY(y), this.ToUnitsX(radius), 0, Math.PI*2, true);
         this.canvasContext.fill();
+    }
+
+    DrawLine(x1, y1, x2, y2, color){
+        this.canvasContext.strokeStyle = color;
+        this.canvasContext.beginPath();
+        this.canvasContext.moveTo(this.ToUnitsX(x1), this.ToUnitsY(y1));
+        this.canvasContext.lineTo(this.ToUnitsX(x2), this.ToUnitsY(y2));
+        this.canvasContext.stroke();
+                
     }
 
 }

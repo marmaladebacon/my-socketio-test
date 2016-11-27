@@ -15,6 +15,9 @@ export default class Player{
         this.accelaration = 0.005;
         this._playerEnergy = 50;
         this.maxPlayerEnergy = 100;
+
+        this._playerCollisionDone = false;
+        this._resetCollisionCountdown = 0;
         /*
         this.updateNomsLocations = false;
         this.updateAllPlayersLocation = false;
@@ -54,12 +57,49 @@ export default class Player{
     updatePosition(){
         this.posx += (this.velx * this.maxSpeed);
         this.posy += (this.vely * this.maxSpeed);
-        if(this.posx <= 0 || this.posx >= 1) { this.velx = -this.velx;}
-        if(this.posy <= 0 || this.posy >= 1) { this.vely = -this.vely;}
-        if(this.posx < 0){ this.posx = this.radius;}
-        if(this.posx > 1){ this.posx = 1 - this.radius;}
-        if(this.poxy < 0){ this.posy = this.radius;}
-        if(this.posy > 1){this.posy = 1 - this.radius;}
+        if(this.posx < this.radius || this.posx > (1-this.radius)) { this.velx = -this.velx;}
+        if(this.posy < this.radius || this.posy > (1-this.radius)) { this.vely = -this.vely;}
+        if(this.posx < this.radius){ this.posx = this.radius;}
+        if(this.posx > (1-this.radius)){ this.posx = 1 - this.radius;}
+        if(this.poxy < this.radius){ this.posy = this.radius;}
+        if(this.posy > (1-this.radius)){this.posy = 1 - this.radius;}
+    }
+
+    updateCollisionsWithPlayers(players){
+        for(let i =0; i<players.length; i++){
+            if(this.posx === players[i].posx && this.posy === players[i].posy){
+                continue;
+            }
+            if(this._playerCollisionDone){
+                continue;
+            }
+            let deltax = players[i].posx - this.posx;
+            let deltay = players[i].posy - this.posy;
+            let distsq = (deltax * deltax) + (deltay * deltay);
+            if(distsq < ((this.radius * this.radius) + (players[i].radius * players[i].radius)) ){
+                //collision happens;
+                if(deltax < deltay){
+                    this.vely  = -this.vely;
+                    players[i].vely = -players[i].vely;                     
+                }else{
+                    this.velx = -this.velx;
+                    players[i].velx = -players[i].velx;
+                }
+                
+                players[i]._playerCollisionDone = true;
+                players[i]._resetCollisionCountdown = 15;
+                this._playerCollisionDone = true;
+                this._resetCollisionCountdown = 15;
+            }
+        }
+    }
+
+    resetCollisions(){
+        if(this._resetCollisionCountdown <=0){
+            this._playerCollisionDone = false;
+        }else{
+            this._resetCollisionCountdown -= 1;
+        }
     }
 
     updateEnergy(){

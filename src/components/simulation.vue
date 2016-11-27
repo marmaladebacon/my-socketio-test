@@ -59,8 +59,9 @@ module.exports = {
     methods:{
         simRender(){
             this.drawMgr.ClearCanvas();
-            this.drawMgr.DrawRect(0.2,0.4, 0.35,0.1,'black');
+            this.drawMgr.DrawRect(0.2,0.4, 0.35,0.1,'black');            
             this.simDrawBoard();
+            this.simDrawCollectionPoints();
             console.log(this.players.length);
             this.simDrawNoms();
             this.simDrawPlayers();
@@ -79,16 +80,27 @@ module.exports = {
                 this.simDrawNom(this.noms[i]);
             }
         },
+        simDrawCollectionPoints(){
+            let w = 0.15;
+            this.drawMgr.DrawRect(0,0,w,w, 'lightseagreen');
+            this.drawMgr.DrawRect(1-w,0,w,w, 'lightseagreen');
+            this.drawMgr.DrawRect(0,1-w,w,w, 'lightseagreen');
+            this.drawMgr.DrawRect(1-w,1-w,w,w, 'lightseagreen');
+        },
         simDrawPlayer(playerModel){
-            let val = 1 -(playerModel._playerEnergy/playerModel.maxPlayerEnergy);
-            console.log('P Energy:'+ playerModel._playerEnergy+', '+playerModel.maxPlayerEnergy+ '-->'+val);
-            let pcolor = 'rgb('+ (Math.floor(val * 254)  + 1)+',255,0)';
+            let valr = Math.floor( (1 -(playerModel._playerEnergy/playerModel.maxPlayerEnergy)) *254);
+            let valgb = Math.floor( (playerModel._playerEnergy/playerModel.maxPlayerEnergy) *255); 
+            console.log('P Energy:'+ playerModel._playerEnergy+', '+playerModel.maxPlayerEnergy);
+            let pcolor = 'rgb('+ valr+','+valgb+','+valgb+')';
             //console.log('Drawing player: '+pcolor+', '+ playerModel.posx + ', '+playerModel.posy);
             this.drawMgr.DrawCircle(playerModel.posx, playerModel.posy, playerModel.radius,pcolor);
             this.drawMgr.DrawText(playerModel.posx-0.03, playerModel.posy+0.02, 0.8, 'green', playerModel.playerName);
+            this.drawMgr.DrawLine(playerModel.posx, playerModel.posy, 
+                playerModel.posx + playerModel._intendedVelX, 
+                playerModel.posx + playerModel._intendedVelY, 'white');
         },
         simDrawNom(nomModel){
-            this.drawMgr.DrawCircle(nomModel.x, nomModel.y, nomModel.radius, 'cyan');
+            this.drawMgr.DrawCircle(nomModel.x, nomModel.y, nomModel.radius, 'green');
         },
 
         simResizeWindow(){
@@ -129,8 +141,8 @@ module.exports = {
   top:      50%;
 }
 #gameCanvas {
-  width: 100%;
-  height: 100%;
+  width: 85%;
+  height: 85%;
 }
 #statsPanel {
   position: absolute;
