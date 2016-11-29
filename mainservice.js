@@ -74,19 +74,21 @@ export default class MainService{
                 _.remove(this.sockets, (n)=>{return n.id === socket.id;});
             });
         });
-        /*
-        this.ioMyNsp.on('connection', (socket) => {
-            console.log('user connected to my namespace');
+        /* Basic socket io connection
+        this.io.on('connection', (socket) => {
+            console.log('user connected ');
             socket.on('disconnect', ()=>{
-                console.log('user disconnected from my namespace');
-                _.remove(this.sockets, (n)=>{return n.id === socket.id;});
+                console.log('user disconnected');
             });
         });*/
         var boundloop = this.logicloop.bind(this);
         var boundStatsLoop = this.statsLoop.bind(this);
         var boundSpawnNoms = this.spawnNomsLoop.bind(this);
+        //30 updates a second
         setInterval(boundloop, 1000/30);
+        //log the connected numbers every 5 seconds
         setInterval(boundStatsLoop, 5000);
+        //Spawn new noms every 1 second
         setInterval(boundSpawnNoms, 1000);
     }
 
@@ -110,7 +112,6 @@ export default class MainService{
             noms: this.noms,
         }
         this.io.to('viewers').emit('viewerUpdate', data);
-        //this.io.to('players').
     }
 
     spawnNomsLoop(){
@@ -218,22 +219,3 @@ export default class MainService{
          return r;
     }
 }
-
-//app.use('/fonts', express.static(__dirname + '/dist/fonts/'));
-
-/*
-        this.getNews().on('response', (response)=>{
-            //console.log(response);
-            response.on('data', (data)=>{
-                let d = response;
-                try{
-                    d= JSON.parse(data);
-                }catch(e){
-                    console.log('error in parse');
-                }
-                _.forEach(this.sockets, (n)=>{
-                    n.emit('news',d);
-                });
-            })
-        });
-        */

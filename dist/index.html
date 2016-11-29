@@ -7,8 +7,6 @@
         <link href="gridstack.css" rel="stylesheet"/>
         <link rel="stylesheet" href="vuex-toast.css"/>
         <link href="style-overrides.css" rel="stylesheet"/>
-
-        <!--<link href="gridstack-demo.css" rel="stylesheet"> -->
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -25,33 +23,18 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><router-link to="/home">Base</router-link></li>
-                    <!-- <li><router-link to="/about">About</router-link></li>
-                    <li><router-link to="/reportbuilder">Report Builder</router-link></li> -->
                     <li><router-link to="/reportbuildergridstack">News Builder</router-link></li>
                     <li><router-link to="/simulation">Sim</router-link></li>
-                    <!--
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    -->
-
                 </ul>
-            </div><!--/.nav-collapse -->
+            </div>
             <div class="container">
                 <router-view></router-view>
             </div>
-            <!--
-            <div id="dialog-save" class="tile">
-                My dialog content.
-                <input type="text" placeholder="Enter config name"/>
-            </div> -->
 
             <toast-wrapper></toast-wrapper>
         </div>
         <div id="modalfade" style="position:absolute; left:0px; top:0px; width:100%; height:100%; z-index:7000; background-color:black; opacity:0.5; display:none;">
         </nav>
-        <!-- current version of marionette has an issue with lodash 4, todo: see if upgrading from 2.4.3 to 3.1.0 still works with bandit tiles -->
-        <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script> -->
         <script type="text/javascript" src="res/lodash.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <!-- jquery migrate is required in order to deal with issues with 3.x jquery and jquery-ui -->
